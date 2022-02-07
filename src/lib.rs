@@ -10,8 +10,20 @@ use napi_derive::napi;
 ))]
 #[global_allocator]
 static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+use nodejs_path as path
+;
+#[napi]
+pub fn normalize(input: String) -> String {
+  path::normalize(&input)
+}
+
 
 #[napi]
-pub fn plus_100(input: u32) -> u32 {
-  input + 100
+pub fn resolve(inputs: Vec<String>) -> String {
+  path::resolve_impl(&inputs)
+}
+
+#[napi]
+pub fn relative(a: String, b: String) -> String {
+  path::relative(&a, &b)
 }
